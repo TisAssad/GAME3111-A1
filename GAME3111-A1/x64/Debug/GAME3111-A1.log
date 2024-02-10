@@ -1,0 +1,24 @@
+﻿  d3dApp.cpp
+C:\Users\DAC\Documents\GAME3111-A1\GAME3111-A1\Common\d3dApp.cpp(198,5): error C2102: '&' requires l-value
+C:\Users\DAC\Documents\GAME3111-A1\GAME3111-A1\Common\d3dApp.cpp(215,35): error C2102: '&' requires l-value
+  d3dUtil.cpp
+C:\Users\DAC\Documents\GAME3111-A1\GAME3111-A1\Common\d3dUtil.cpp(48,5): error C2102: '&' requires l-value
+C:\Users\DAC\Documents\GAME3111-A1\GAME3111-A1\Common\d3dUtil.cpp(58,5): error C2102: '&' requires l-value
+C:\Users\DAC\Documents\GAME3111-A1\GAME3111-A1\Common\d3dUtil.cpp(76,30): error C2102: '&' requires l-value
+C:\Users\DAC\Documents\GAME3111-A1\GAME3111-A1\Common\d3dUtil.cpp(79,30): error C2102: '&' requires l-value
+  DDSTextureLoader.cpp
+C:\Users\DAC\Documents\GAME3111-A1\GAME3111-A1\Common\DDSTextureLoader.cpp(1273,4): error C2102: '&' requires l-value
+C:\Users\DAC\Documents\GAME3111-A1\GAME3111-A1\Common\DDSTextureLoader.cpp(1292,5): error C2102: '&' requires l-value
+C:\Users\DAC\Documents\GAME3111-A1\GAME3111-A1\Common\DDSTextureLoader.cpp(1294,5): error C2102: '&' requires l-value
+C:\Users\DAC\Documents\GAME3111-A1\GAME3111-A1\Common\DDSTextureLoader.cpp(1305,33): error C2102: '&' requires l-value
+C:\Users\DAC\Documents\GAME3111-A1\GAME3111-A1\Common\DDSTextureLoader.cpp(1311,33): error C2102: '&' requires l-value
+  FrameResource.cpp
+C:\Users\DAC\Documents\GAME3111-A1\GAME3111-A1\Common\FrameResource.h(3,10): fatal  error C1083: Cannot open include file: '../../Common/d3dUtil.h': No such file or directory
+  ShapesApp.cpp
+C:\Users\DAC\Documents\GAME3111-A1\GAME3111-A1\ShapesApp.cpp(197,70): error C2102: '&' requires l-value
+C:\Users\DAC\Documents\GAME3111-A1\GAME3111-A1\ShapesApp.cpp(197,38): error C2102: '&' requires l-value
+C:\Users\DAC\Documents\GAME3111-A1\GAME3111-A1\ShapesApp.cpp(204,41): error C2102: '&' requires l-value
+C:\Users\DAC\Documents\GAME3111-A1\GAME3111-A1\ShapesApp.cpp(205,33): error C2102: '&' requires l-value
+C:\Users\DAC\Documents\GAME3111-A1\GAME3111-A1\ShapesApp.cpp(189,35): error C2102: '&' requires l-value
+C:\Users\DAC\Documents\GAME3111-A1\GAME3111-A1\ShapesApp.cpp(215,35): error C2102: '&' requires l-value
+  Generating Code...
