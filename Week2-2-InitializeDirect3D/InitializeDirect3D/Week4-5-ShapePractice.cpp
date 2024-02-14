@@ -128,8 +128,8 @@ private:
 	XMFLOAT4X4 mProj = MathHelper::Identity4x4();
 
 	float mTheta = 1.5f * XM_PI;
-	float mPhi = 0.2f * XM_PI;
-	float mRadius = 15.0f;
+	float mPhi = 0.4f * XM_PI;
+	float mRadius = 25.0f;
 
 	POINT mLastMousePos;
 };
@@ -184,7 +184,7 @@ bool ShapesApp::Initialize()
 	BuildDescriptorHeaps();
 	BuildConstantBufferViews();
 	BuildPSOs();
-
+	
 	// Execute the initialization commands.
 	ThrowIfFailed(mCommandList->Close());
 	ID3D12CommandList* cmdsLists[] = { mCommandList.Get() };
@@ -546,6 +546,7 @@ void ShapesApp::BuildShapeGeometry()
 	GeometryGenerator::MeshData grid = geoGen.CreateGrid(1.0f, 1.0f, 60, 40);
 	GeometryGenerator::MeshData sphere = geoGen.CreateSphere(0.5f, 20, 20);
 	GeometryGenerator::MeshData cylinder = geoGen.CreateCylinder(0.5f, 0.5f, 1.0f, 8, 20);
+	GeometryGenerator::MeshData wedge = geoGen.CreateWedge(0.5f, 0.5f, 1.0f, 20);
 
 	//
 	// We are concatenating all the geometry into one big vertex/index buffer.  So
@@ -559,6 +560,7 @@ void ShapesApp::BuildShapeGeometry()
 	UINT gridVertexOffset = (UINT)box.Vertices.size();
 	UINT sphereVertexOffset = gridVertexOffset + (UINT)grid.Vertices.size();
 	UINT cylinderVertexOffset = sphereVertexOffset + (UINT)sphere.Vertices.size();
+	UINT wedgeVertexOffset = cylinderVertexOffset + (UINT)wedge.Vertices.size();
 
 	// Cache the starting index for each object in the concatenated index buffer.
 	UINT boxIndexOffset = 0;
@@ -567,6 +569,7 @@ void ShapesApp::BuildShapeGeometry()
 	UINT gridIndexOffset = (UINT)box.Indices32.size();
 	UINT sphereIndexOffset = gridIndexOffset + (UINT)grid.Indices32.size();
 	UINT cylinderIndexOffset = sphereIndexOffset + (UINT)sphere.Indices32.size();
+	UINT wedgeIndexOffset = cylinderIndexOffset + (UINT)wedge.Indices32.size();
 
 	// Define the SubmeshGeometry that cover different 
 	// regions of the vertex/index buffers.
@@ -592,6 +595,10 @@ void ShapesApp::BuildShapeGeometry()
 	cylinderSubmesh.StartIndexLocation = cylinderIndexOffset;
 	cylinderSubmesh.BaseVertexLocation = cylinderVertexOffset;
 
+	SubmeshGeometry wedgeSubmesh;
+	wedgeSubmesh.IndexCount = (UINT)wedge.Indices32.size();
+	wedgeSubmesh.StartIndexLocation = wedgeIndexOffset;
+	wedgeSubmesh.BaseVertexLocation = wedgeVertexOffset;
 	//
 	// Extract the vertex elements we are interested in and pack the
 	// vertices of all the meshes into one vertex buffer.
@@ -603,7 +610,8 @@ void ShapesApp::BuildShapeGeometry()
 		box.Vertices.size() +
 		grid.Vertices.size() +
 		sphere.Vertices.size() +
-		cylinder.Vertices.size();
+		cylinder.Vertices.size() +
+		wedge.Vertices.size();
 
 	std::vector<Vertex> vertices(totalVertexCount);
 
@@ -630,6 +638,12 @@ void ShapesApp::BuildShapeGeometry()
 	for (size_t i = 0; i < cylinder.Vertices.size(); ++i, ++k)
 	{
 		vertices[k].Pos = cylinder.Vertices[i].Position;
+		vertices[k].Color = XMFLOAT4(DirectX::Colors::DimGray);
+	}
+
+	for (size_t i = 0; i < wedge.Vertices.size(); ++i, ++k)
+	{
+		vertices[k].Pos = wedge.Vertices[i].Position;
 		vertices[k].Color = XMFLOAT4(DirectX::Colors::DimGray);
 	}
 
@@ -762,10 +776,19 @@ void ShapesApp::BuildRenderItems()
 		XMFLOAT3 tBox(-3, 6, 7);
 		DrawObject(XMFLOAT3(tPillar.x + i * 2, tPillar.y, tPillar.z), XMFLOAT3(1.0f, 5.0f, 1.0f), 0, index, "cylinder");  // Up
 		DrawObject(XMFLOAT3(tPillar.x + i * 2, tPillar.y, -tPillar.z), XMFLOAT3(1.0f, 5.0f, 1.0f), 0, index, "cylinder"); // Down
+		DrawObject(XMFLOAT3(tPillar.x + i * 2, tPillar.y, -tPillar.z +2), XMFLOAT3(1.0f, 5.0f, 1.0f), 0, index, "cylinder"); // Second layer
 		DrawObject(XMFLOAT3(tBox.x + i * 2, tBox.y, tBox.z), XMFLOAT3(1.5f, 0.5f, 1.5f), 0, index, "box");  // Up
 		DrawObject(XMFLOAT3(tBox.x + i * 2, tBox.y, -tBox.z), XMFLOAT3(1.5f, 0.5f, 1.5f), 0, index, "box"); // Down
+		DrawObject(XMFLOAT3(tBox.x + i * 2, tBox.y, -tBox.z + 2), XMFLOAT3(1.5f, 0.5f, 1.5f), 0, index, "box"); // Second layer
 	}
+	// Roof
+	DrawObject(XMFLOAT3(0.0f, 6.5f, 0.0f), XMFLOAT3(13.0f, 0.75f, 18.0f), 0, index, "box");
 
+	// Center
+	DrawObject(XMFLOAT3(3.0f, 3.5f, 1.0f), XMFLOAT3(0.5f, 5.0f, 8.0f), 0, index, "box");
+	DrawObject(XMFLOAT3(-3.0f, 3.5f, 1.0f), XMFLOAT3(0.5f, 5.0f, 8.0f), 0, index, "box");
+	DrawObject(XMFLOAT3(0.0f, 3.5f, -2.75f), XMFLOAT3(6.0f, 5.0f, 0.5f), 0, index, "box");
+	DrawObject(XMFLOAT3(0.0f, 3.5f, 4.75f), XMFLOAT3(6.0f, 5.0f, 0.5f), 0, index, "box");
 
 	
 	////Step9

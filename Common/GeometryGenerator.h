@@ -105,7 +105,7 @@ public:
 	///</summary>
     MeshData CreateGrid(float width, float depth, uint32 m, uint32 n);
 
-	MeshData CreatePyramid(float bottomRadius, float height);
+	MeshData CreateWedge(float bottomRadius, float topRadius, float height, uint32 stackCount);
 	///<summary>
 	/// Creates a quad aligned with the screen.  This is useful for postprocessing and screen effects.
 	///</summary>
