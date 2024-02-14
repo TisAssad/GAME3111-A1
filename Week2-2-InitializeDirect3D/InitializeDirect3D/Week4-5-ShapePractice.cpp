@@ -546,7 +546,7 @@ void ShapesApp::BuildShapeGeometry()
 	GeometryGenerator::MeshData grid = geoGen.CreateGrid(1.0f, 1.0f, 60, 40);
 	GeometryGenerator::MeshData sphere = geoGen.CreateSphere(0.5f, 20, 20);
 	GeometryGenerator::MeshData cylinder = geoGen.CreateCylinder(0.5f, 0.5f, 1.0f, 8, 20);
-	GeometryGenerator::MeshData wedge = geoGen.CreateWedge(0.5f, 0.5f, 1.0f, 20);
+	GeometryGenerator::MeshData wedge = geoGen.CreateWedge(5.0f, 5.0f, 5.0f);
 
 	//
 	// We are concatenating all the geometry into one big vertex/index buffer.  So
@@ -560,7 +560,7 @@ void ShapesApp::BuildShapeGeometry()
 	UINT gridVertexOffset = (UINT)box.Vertices.size();
 	UINT sphereVertexOffset = gridVertexOffset + (UINT)grid.Vertices.size();
 	UINT cylinderVertexOffset = sphereVertexOffset + (UINT)sphere.Vertices.size();
-	UINT wedgeVertexOffset = cylinderVertexOffset + (UINT)wedge.Vertices.size();
+	UINT wedgeVertexOffset = cylinderVertexOffset + (UINT)cylinder.Vertices.size();
 
 	// Cache the starting index for each object in the concatenated index buffer.
 	UINT boxIndexOffset = 0;
@@ -569,7 +569,7 @@ void ShapesApp::BuildShapeGeometry()
 	UINT gridIndexOffset = (UINT)box.Indices32.size();
 	UINT sphereIndexOffset = gridIndexOffset + (UINT)grid.Indices32.size();
 	UINT cylinderIndexOffset = sphereIndexOffset + (UINT)sphere.Indices32.size();
-	UINT wedgeIndexOffset = cylinderIndexOffset + (UINT)wedge.Indices32.size();
+	UINT wedgeIndexOffset = cylinderIndexOffset + (UINT)cylinder.Indices32.size();
 
 	// Define the SubmeshGeometry that cover different 
 	// regions of the vertex/index buffers.
@@ -644,7 +644,7 @@ void ShapesApp::BuildShapeGeometry()
 	for (size_t i = 0; i < wedge.Vertices.size(); ++i, ++k)
 	{
 		vertices[k].Pos = wedge.Vertices[i].Position;
-		vertices[k].Color = XMFLOAT4(DirectX::Colors::DimGray);
+		vertices[k].Color = XMFLOAT4(DirectX::Colors::LightGray);
 	}
 
 	std::vector<std::uint16_t> indices;
@@ -653,6 +653,7 @@ void ShapesApp::BuildShapeGeometry()
 	indices.insert(indices.end(), std::begin(grid.GetIndices16()), std::end(grid.GetIndices16()));
 	indices.insert(indices.end(), std::begin(sphere.GetIndices16()), std::end(sphere.GetIndices16()));
 	indices.insert(indices.end(), std::begin(cylinder.GetIndices16()), std::end(cylinder.GetIndices16()));
+	indices.insert(indices.end(), std::begin(wedge.GetIndices16()), std::end(wedge.GetIndices16()));
 
 	const UINT vbByteSize = (UINT)vertices.size() * sizeof(Vertex);
 	const UINT ibByteSize = (UINT)indices.size() * sizeof(std::uint16_t);
@@ -682,6 +683,7 @@ void ShapesApp::BuildShapeGeometry()
 	geo->DrawArgs["grid"] = gridSubmesh;
 	geo->DrawArgs["sphere"] = sphereSubmesh;
 	geo->DrawArgs["cylinder"] = cylinderSubmesh;
+	geo->DrawArgs["wedge"] = wedgeSubmesh;
 
 	mGeometries[geo->Name] = std::move(geo);
 }
@@ -783,6 +785,7 @@ void ShapesApp::BuildRenderItems()
 	}
 	// Roof
 	DrawObject(XMFLOAT3(0.0f, 6.5f, 0.0f), XMFLOAT3(13.0f, 0.75f, 18.0f), 0, index, "box");
+	//DrawObject(XMFLOAT3(0.0f, 5.5f, 0.0f), XMFLOAT3(1.0f, 1.0f, 1.0f), 0, index, "wedge");
 
 	// Center
 	DrawObject(XMFLOAT3(3.0f, 3.5f, 1.0f), XMFLOAT3(0.5f, 5.0f, 8.0f), 0, index, "box");

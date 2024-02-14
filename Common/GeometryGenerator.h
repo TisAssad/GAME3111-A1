@@ -104,12 +104,11 @@ public:
 	/// at the origin with the specified width and depth.
 	///</summary>
     MeshData CreateGrid(float width, float depth, uint32 m, uint32 n);
-
-	MeshData CreateWedge(float bottomRadius, float topRadius, float height, uint32 stackCount);
 	///<summary>
 	/// Creates a quad aligned with the screen.  This is useful for postprocessing and screen effects.
 	///</summary>
     MeshData CreateQuad(float x, float y, float w, float h, float depth);
+	MeshData CreateWedge(float width, float height, float depth);
 	void Subdivide(MeshData& meshData);
 private:
 	
