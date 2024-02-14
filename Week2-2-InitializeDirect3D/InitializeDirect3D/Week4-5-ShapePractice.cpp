@@ -92,7 +92,7 @@ private:
 	void BuildRenderItems();
 	void DrawRenderItems(ID3D12GraphicsCommandList* cmdList, const std::vector<RenderItem*>& ritems);
 
-	void DrawObject(XMFLOAT3 translation, XMFLOAT3 scale, float angle, UINT &index, std::string name);
+	void DrawObject(XMFLOAT3 translation, XMFLOAT3 scale, float angle, UINT &index, std::string name, float angleY, float angleZ);
 
 private:
 
@@ -540,13 +540,13 @@ void ShapesApp::BuildShadersAndInputLayout()
 void ShapesApp::BuildShapeGeometry()
 {
 	GeometryGenerator geoGen;
-	GeometryGenerator::MeshData box = geoGen.CreateBox(1.0f, 1.0f, 1.0f, 3);
+	GeometryGenerator::MeshData box = geoGen.CreateBox(1.0f, 1.0f, 1.0f, 0);
 	
 	// Step1
 	GeometryGenerator::MeshData grid = geoGen.CreateGrid(1.0f, 1.0f, 60, 40);
 	GeometryGenerator::MeshData sphere = geoGen.CreateSphere(0.5f, 20, 20);
 	GeometryGenerator::MeshData cylinder = geoGen.CreateCylinder(0.5f, 0.5f, 1.0f, 8, 20);
-	GeometryGenerator::MeshData wedge = geoGen.CreateWedge(5.0f, 5.0f, 5.0f);
+	GeometryGenerator::MeshData wedge = geoGen.CreateWedge(1.0f, 1.0f, 1.0f);
 
 	//
 	// We are concatenating all the geometry into one big vertex/index buffer.  So
@@ -644,7 +644,7 @@ void ShapesApp::BuildShapeGeometry()
 	for (size_t i = 0; i < wedge.Vertices.size(); ++i, ++k)
 	{
 		vertices[k].Pos = wedge.Vertices[i].Position;
-		vertices[k].Color = XMFLOAT4(DirectX::Colors::LightGray);
+		vertices[k].Color = XMFLOAT4(DirectX::Colors::Gray);
 	}
 
 	std::vector<std::uint16_t> indices;
@@ -740,11 +740,13 @@ void ShapesApp::BuildFrameResources()
 	}
 }
 
-void ShapesApp::DrawObject(XMFLOAT3 translation, XMFLOAT3 scale, float angle, UINT &index, std::string name)
+void ShapesApp::DrawObject(XMFLOAT3 translation, XMFLOAT3 scale, float angleX, UINT& index, std::string name, float angleY = 0, float angleZ = 0)
 {
 	auto renderItem = std::make_unique<RenderItem>();
 	XMStoreFloat4x4(&renderItem->World, XMMatrixScaling(scale.x, scale.y, scale.z)
-		* XMMatrixRotationX(XMConvertToRadians(angle))
+		* XMMatrixRotationX(XMConvertToRadians(angleX))
+		* XMMatrixRotationY(XMConvertToRadians(angleY))
+		* XMMatrixRotationZ(XMConvertToRadians(angleZ))
 		* XMMatrixTranslation(translation.x, translation.y, translation.z));
 	renderItem->ObjCBIndex = index++;
 	renderItem->Geo = mGeometries["shapeGeo"].get();
@@ -785,7 +787,7 @@ void ShapesApp::BuildRenderItems()
 	}
 	// Roof
 	DrawObject(XMFLOAT3(0.0f, 6.5f, 0.0f), XMFLOAT3(13.0f, 0.75f, 18.0f), 0, index, "box");
-	//DrawObject(XMFLOAT3(0.0f, 5.5f, 0.0f), XMFLOAT3(1.0f, 1.0f, 1.0f), 0, index, "wedge");
+	DrawObject(XMFLOAT3(0.0f, 7.375f, 0.0f), XMFLOAT3(1.0f, 18.0f, 7.5f), 90, index, "wedge", 0, 90);
 
 	// Center
 	DrawObject(XMFLOAT3(3.0f, 3.5f, 1.0f), XMFLOAT3(0.5f, 5.0f, 8.0f), 0, index, "box");
