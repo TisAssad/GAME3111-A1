@@ -550,6 +550,7 @@ void ShapesApp::BuildShapeGeometry()
 	GeometryGenerator::MeshData diamond = geoGen.CreateDiamond(1);
 	GeometryGenerator::MeshData pyramid = geoGen.CreatePyramid(1);
 	GeometryGenerator::MeshData triangle3D = geoGen.CreateTriangularPrism(1);
+	GeometryGenerator::MeshData cone = geoGen.CreateCone(0.5, 0.5, 20, 5);
 
 	//
 	// We are concatenating all the geometry into one big vertex/index buffer.  So
@@ -566,6 +567,8 @@ void ShapesApp::BuildShapeGeometry()
 	UINT wedgeVertexOffset = cylinderVertexOffset + (UINT)cylinder.Vertices.size();
 	UINT diamondVertexOffset = wedgeVertexOffset + (UINT)wedge.Vertices.size();
 	UINT pyramidVertexOffset = diamondVertexOffset + (UINT)diamond.Vertices.size();
+	UINT triangle3DVertexOffset = pyramidVertexOffset + (UINT)pyramid.Vertices.size();
+	UINT coneVertexOffset = triangle3DVertexOffset + (UINT)triangle3D.Vertices.size();
 
 	// Cache the starting index for each object in the concatenated index buffer.
 	UINT boxIndexOffset = 0;
@@ -577,6 +580,8 @@ void ShapesApp::BuildShapeGeometry()
 	UINT wedgeIndexOffset = cylinderIndexOffset + (UINT)cylinder.Indices32.size();
 	UINT diamondIndexOffset = wedgeIndexOffset + (UINT)wedge.Indices32.size();
 	UINT pyramidIndexOffset = diamondIndexOffset + (UINT)diamond.Indices32.size();
+	UINT triangle3DIndexOffset = pyramidIndexOffset + (UINT)pyramid.Indices32.size();
+	UINT coneIndexOffset = triangle3DIndexOffset + (UINT)triangle3D.Indices32.size();
 
 	// Define the SubmeshGeometry that cover different 
 	// regions of the vertex/index buffers.
@@ -616,6 +621,16 @@ void ShapesApp::BuildShapeGeometry()
 	pyramidSubmesh.IndexCount = (UINT)pyramid.Indices32.size();
 	pyramidSubmesh.StartIndexLocation = pyramidIndexOffset;
 	pyramidSubmesh.BaseVertexLocation = pyramidVertexOffset;
+
+	SubmeshGeometry triangle3DSubmesh;
+	triangle3DSubmesh.IndexCount = (UINT)triangle3D.Indices32.size();
+	triangle3DSubmesh.StartIndexLocation = triangle3DIndexOffset;
+	triangle3DSubmesh.BaseVertexLocation = triangle3DVertexOffset;
+
+	SubmeshGeometry coneSubmesh;
+	coneSubmesh.IndexCount = (UINT)cone.Indices32.size();
+	coneSubmesh.StartIndexLocation = coneIndexOffset;
+	coneSubmesh.BaseVertexLocation = coneVertexOffset;
 	//
 	// Extract the vertex elements we are interested in and pack the
 	// vertices of all the meshes into one vertex buffer.
@@ -630,7 +645,9 @@ void ShapesApp::BuildShapeGeometry()
 		cylinder.Vertices.size() +
 		wedge.Vertices.size() +
 		diamond.Vertices.size() +
-		pyramid.Vertices.size();
+		pyramid.Vertices.size() +
+		triangle3D.Vertices.size() +
+		cone.Vertices.size();
 
 	std::vector<Vertex> vertices(totalVertexCount);
 
@@ -678,6 +695,18 @@ void ShapesApp::BuildShapeGeometry()
 		vertices[k].Color = XMFLOAT4(DirectX::Colors::ForestGreen);
 	}
 
+	for (size_t i = 0; i < triangle3D.Vertices.size(); ++i, ++k)
+	{
+		vertices[k].Pos = triangle3D.Vertices[i].Position;
+		vertices[k].Color = XMFLOAT4(DirectX::Colors::PaleVioletRed);
+	}
+
+	for (size_t i = 0; i < cone.Vertices.size(); ++i, ++k)
+	{
+		vertices[k].Pos = cone.Vertices[i].Position;
+		vertices[k].Color = XMFLOAT4(DirectX::Colors::GreenYellow);
+	}
+
 	std::vector<std::uint16_t> indices;
 	indices.insert(indices.end(), std::begin(box.GetIndices16()), std::end(box.GetIndices16()));
 	//step7
@@ -687,6 +716,8 @@ void ShapesApp::BuildShapeGeometry()
 	indices.insert(indices.end(), std::begin(wedge.GetIndices16()), std::end(wedge.GetIndices16()));
 	indices.insert(indices.end(), std::begin(diamond.GetIndices16()), std::end(diamond.GetIndices16()));
 	indices.insert(indices.end(), std::begin(pyramid.GetIndices16()), std::end(pyramid.GetIndices16()));
+	indices.insert(indices.end(), std::begin(triangle3D.GetIndices16()), std::end(triangle3D.GetIndices16()));
+	indices.insert(indices.end(), std::begin(cone.GetIndices16()), std::end(cone.GetIndices16()));
 
 	const UINT vbByteSize = (UINT)vertices.size() * sizeof(Vertex);
 	const UINT ibByteSize = (UINT)indices.size() * sizeof(std::uint16_t);
@@ -719,6 +750,8 @@ void ShapesApp::BuildShapeGeometry()
 	geo->DrawArgs["wedge"] = wedgeSubmesh;
 	geo->DrawArgs["diamond"] = diamondSubmesh;
 	geo->DrawArgs["pyramid"] = pyramidSubmesh;
+	geo->DrawArgs["triangle3D"] = triangle3DSubmesh;
+	geo->DrawArgs["cone"] = coneSubmesh;
 
 	mGeometries[geo->Name] = std::move(geo);
 }
@@ -825,6 +858,8 @@ void ShapesApp::BuildRenderItems()
 	DrawObject(XMFLOAT3(0.0f, 7.375f, 0.0f), XMFLOAT3(1.0f, 18.0f, 7.5f), 90, index, "wedge", 0, 90);
 	//DrawObject(XMFLOAT3(0.0f, 10.0f, 0.0f), XMFLOAT3(3.0f, 3.0f, 3.0f), 0, index, "diamond");
 	DrawObject(XMFLOAT3(-4.0f, 10.0f, 0.0f), XMFLOAT3(3.0f, 3.0f, 3.0f), 0, index, "pyramid");
+	DrawObject(XMFLOAT3(4.0f, 10.0f, 0.0f), XMFLOAT3(3.0f, 3.0f, 3.0f), 0, index, "triangle3D");
+	DrawObject(XMFLOAT3(0.0f, 10.0f, 0.0f), XMFLOAT3(3.0f, 3.0f, 3.0f), 0, index, "cone");
 
 	// Center
 	DrawObject(XMFLOAT3(3.0f, 3.5f, 1.0f), XMFLOAT3(0.5f, 5.0f, 8.0f), 0, index, "box");
