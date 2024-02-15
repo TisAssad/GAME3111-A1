@@ -545,8 +545,9 @@ void ShapesApp::BuildShapeGeometry()
 	// Step1
 	GeometryGenerator::MeshData grid = geoGen.CreateGrid(1.0f, 1.0f, 60, 40);
 	GeometryGenerator::MeshData sphere = geoGen.CreateSphere(0.5f, 20, 20);
-	GeometryGenerator::MeshData cylinder = geoGen.CreateCylinder(0.5f, 0.5f, 1.0f, 8, 20);
+	GeometryGenerator::MeshData cylinder = geoGen.CreateCylinder(0.6f, 0.4f, 1.0f, 8, 20);
 	GeometryGenerator::MeshData wedge = geoGen.CreateWedge(1.0f, 1.0f, 1.0f);
+	GeometryGenerator::MeshData diamond = geoGen.CreateDiamond(1.0f, 1.0f, 1.0f, 1);
 
 	//
 	// We are concatenating all the geometry into one big vertex/index buffer.  So
@@ -561,6 +562,7 @@ void ShapesApp::BuildShapeGeometry()
 	UINT sphereVertexOffset = gridVertexOffset + (UINT)grid.Vertices.size();
 	UINT cylinderVertexOffset = sphereVertexOffset + (UINT)sphere.Vertices.size();
 	UINT wedgeVertexOffset = cylinderVertexOffset + (UINT)cylinder.Vertices.size();
+	UINT diamondVertexOffset = wedgeVertexOffset + (UINT)wedge.Vertices.size();
 
 	// Cache the starting index for each object in the concatenated index buffer.
 	UINT boxIndexOffset = 0;
@@ -570,6 +572,7 @@ void ShapesApp::BuildShapeGeometry()
 	UINT sphereIndexOffset = gridIndexOffset + (UINT)grid.Indices32.size();
 	UINT cylinderIndexOffset = sphereIndexOffset + (UINT)sphere.Indices32.size();
 	UINT wedgeIndexOffset = cylinderIndexOffset + (UINT)cylinder.Indices32.size();
+	UINT diamondIndexOffset = wedgeIndexOffset + (UINT)wedge.Indices32.size();
 
 	// Define the SubmeshGeometry that cover different 
 	// regions of the vertex/index buffers.
@@ -599,6 +602,11 @@ void ShapesApp::BuildShapeGeometry()
 	wedgeSubmesh.IndexCount = (UINT)wedge.Indices32.size();
 	wedgeSubmesh.StartIndexLocation = wedgeIndexOffset;
 	wedgeSubmesh.BaseVertexLocation = wedgeVertexOffset;
+
+	SubmeshGeometry diamondSubmesh;
+	diamondSubmesh.IndexCount = (UINT)diamond.Indices32.size();
+	diamondSubmesh.StartIndexLocation = diamondIndexOffset;
+	diamondSubmesh.BaseVertexLocation = diamondVertexOffset;
 	//
 	// Extract the vertex elements we are interested in and pack the
 	// vertices of all the meshes into one vertex buffer.
@@ -611,7 +619,8 @@ void ShapesApp::BuildShapeGeometry()
 		grid.Vertices.size() +
 		sphere.Vertices.size() +
 		cylinder.Vertices.size() +
-		wedge.Vertices.size();
+		wedge.Vertices.size() +
+		diamond.Vertices.size();
 
 	std::vector<Vertex> vertices(totalVertexCount);
 
@@ -647,6 +656,12 @@ void ShapesApp::BuildShapeGeometry()
 		vertices[k].Color = XMFLOAT4(DirectX::Colors::Gray);
 	}
 
+	for (size_t i = 0; i < diamond.Vertices.size(); ++i, ++k)
+	{
+		vertices[k].Pos = diamond.Vertices[i].Position;
+		vertices[k].Color = XMFLOAT4(DirectX::Colors::BlueViolet);
+	}
+
 	std::vector<std::uint16_t> indices;
 	indices.insert(indices.end(), std::begin(box.GetIndices16()), std::end(box.GetIndices16()));
 	//step7
@@ -654,6 +669,7 @@ void ShapesApp::BuildShapeGeometry()
 	indices.insert(indices.end(), std::begin(sphere.GetIndices16()), std::end(sphere.GetIndices16()));
 	indices.insert(indices.end(), std::begin(cylinder.GetIndices16()), std::end(cylinder.GetIndices16()));
 	indices.insert(indices.end(), std::begin(wedge.GetIndices16()), std::end(wedge.GetIndices16()));
+	indices.insert(indices.end(), std::begin(diamond.GetIndices16()), std::end(diamond.GetIndices16()));
 
 	const UINT vbByteSize = (UINT)vertices.size() * sizeof(Vertex);
 	const UINT ibByteSize = (UINT)indices.size() * sizeof(std::uint16_t);
@@ -684,6 +700,7 @@ void ShapesApp::BuildShapeGeometry()
 	geo->DrawArgs["sphere"] = sphereSubmesh;
 	geo->DrawArgs["cylinder"] = cylinderSubmesh;
 	geo->DrawArgs["wedge"] = wedgeSubmesh;
+	geo->DrawArgs["diamond"] = diamondSubmesh;
 
 	mGeometries[geo->Name] = std::move(geo);
 }
@@ -788,6 +805,7 @@ void ShapesApp::BuildRenderItems()
 	// Roof
 	DrawObject(XMFLOAT3(0.0f, 6.5f, 0.0f), XMFLOAT3(13.0f, 0.75f, 18.0f), 0, index, "box");
 	DrawObject(XMFLOAT3(0.0f, 7.375f, 0.0f), XMFLOAT3(1.0f, 18.0f, 7.5f), 90, index, "wedge", 0, 90);
+	//DrawObject(XMFLOAT3(0.0f, 10.0f, 0.0f), XMFLOAT3(3.0f, 3.0f, 3.0f), 0, index, "diamond");
 
 	// Center
 	DrawObject(XMFLOAT3(3.0f, 3.5f, 1.0f), XMFLOAT3(0.5f, 5.0f, 8.0f), 0, index, "box");
