@@ -1,6 +1,9 @@
 /** @file Week4-5-ShapePractice.cpp
  *  @brief Shape Practice.
  *
+ *  Julian Yao, 101419348
+ *  Assad Ali, 101377166
+ * 
  *  Place all of the scene geometry in one big vertex and index buffer. 
  * Then use the DrawIndexedInstanced method to draw one object at a time ((as the
  * world matrix needs to be changed between objects)
