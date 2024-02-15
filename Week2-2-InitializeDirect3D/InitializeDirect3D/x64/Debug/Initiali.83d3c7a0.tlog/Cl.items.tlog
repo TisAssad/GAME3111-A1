@@ -1,8 +1,9 @@
-C:\Hooman\GBC\GAME3111\Common\Camera.cpp;C:\Hooman\GBC\GAME3111\Week2\Week2-2-InitializeDirect3D\InitializeDirect3D\x64\Debug\Camera.obj
-C:\Hooman\GBC\GAME3111\Common\d3dApp.cpp;C:\Hooman\GBC\GAME3111\Week2\Week2-2-InitializeDirect3D\InitializeDirect3D\x64\Debug\d3dApp.obj
-C:\Hooman\GBC\GAME3111\Common\d3dUtil.cpp;C:\Hooman\GBC\GAME3111\Week2\Week2-2-InitializeDirect3D\InitializeDirect3D\x64\Debug\d3dUtil.obj
-C:\Hooman\GBC\GAME3111\Common\DDSTextureLoader.cpp;C:\Hooman\GBC\GAME3111\Week2\Week2-2-InitializeDirect3D\InitializeDirect3D\x64\Debug\DDSTextureLoader.obj
-C:\Hooman\GBC\GAME3111\Common\GameTimer.cpp;C:\Hooman\GBC\GAME3111\Week2\Week2-2-InitializeDirect3D\InitializeDirect3D\x64\Debug\GameTimer.obj
-C:\Hooman\GBC\GAME3111\Common\GeometryGenerator.cpp;C:\Hooman\GBC\GAME3111\Week2\Week2-2-InitializeDirect3D\InitializeDirect3D\x64\Debug\GeometryGenerator.obj
-C:\Hooman\GBC\GAME3111\Common\MathHelper.cpp;C:\Hooman\GBC\GAME3111\Week2\Week2-2-InitializeDirect3D\InitializeDirect3D\x64\Debug\MathHelper.obj
-C:\Hooman\GBC\GAME3111\Week2\Week2-2-InitializeDirect3D\InitializeDirect3D\week2-0-InitializeD3D.cpp;C:\Hooman\GBC\GAME3111\Week2\Week2-2-InitializeDirect3D\InitializeDirect3D\x64\Debug\week2-0-InitializeD3D.obj
+C:\Users\DAC\Documents\GAME3111-A1\GAME3111-A1\Common\Camera.cpp;C:\Users\DAC\Documents\GAME3111-A1\GAME3111-A1\Week2-2-InitializeDirect3D\InitializeDirect3D\x64\Debug\Camera.obj
+C:\Users\DAC\Documents\GAME3111-A1\GAME3111-A1\Common\d3dApp.cpp;C:\Users\DAC\Documents\GAME3111-A1\GAME3111-A1\Week2-2-InitializeDirect3D\InitializeDirect3D\x64\Debug\d3dApp.obj
+C:\Users\DAC\Documents\GAME3111-A1\GAME3111-A1\Common\d3dUtil.cpp;C:\Users\DAC\Documents\GAME3111-A1\GAME3111-A1\Week2-2-InitializeDirect3D\InitializeDirect3D\x64\Debug\d3dUtil.obj
+C:\Users\DAC\Documents\GAME3111-A1\GAME3111-A1\Common\DDSTextureLoader.cpp;C:\Users\DAC\Documents\GAME3111-A1\GAME3111-A1\Week2-2-InitializeDirect3D\InitializeDirect3D\x64\Debug\DDSTextureLoader.obj
+C:\Users\DAC\Documents\GAME3111-A1\GAME3111-A1\Common\GameTimer.cpp;C:\Users\DAC\Documents\GAME3111-A1\GAME3111-A1\Week2-2-InitializeDirect3D\InitializeDirect3D\x64\Debug\GameTimer.obj
+C:\Users\DAC\Documents\GAME3111-A1\GAME3111-A1\Common\GeometryGenerator.cpp;C:\Users\DAC\Documents\GAME3111-A1\GAME3111-A1\Week2-2-InitializeDirect3D\InitializeDirect3D\x64\Debug\GeometryGenerator.obj
+C:\Users\DAC\Documents\GAME3111-A1\GAME3111-A1\Common\MathHelper.cpp;C:\Users\DAC\Documents\GAME3111-A1\GAME3111-A1\Week2-2-InitializeDirect3D\InitializeDirect3D\x64\Debug\MathHelper.obj
+C:\Users\DAC\Documents\GAME3111-A1\GAME3111-A1\Week2-2-InitializeDirect3D\InitializeDirect3D\FrameResource.cpp;C:\Users\DAC\Documents\GAME3111-A1\GAME3111-A1\Week2-2-InitializeDirect3D\InitializeDirect3D\x64\Debug\FrameResource.obj
+C:\Users\DAC\Documents\GAME3111-A1\GAME3111-A1\Week2-2-InitializeDirect3D\InitializeDirect3D\Week4-5-ShapePractice.cpp;C:\Users\DAC\Documents\GAME3111-A1\GAME3111-A1\Week2-2-InitializeDirect3D\InitializeDirect3D\x64\Debug\Week4-5-ShapePractice.obj

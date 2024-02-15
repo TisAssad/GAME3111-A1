@@ -116,6 +116,7 @@ public:
 	MeshData CreateDiamond(float scale);
 	MeshData CreateCone(float bottomRadius, float height, uint32 sliceCount, uint32 stackCount);
 	MeshData CreateRectangularPrism(float bottomRadius, float height, float topRadius, uint32 stackCount);
+	MeshData CreateTorus(float diameter, float thickness, size_t tessellation);
 
 	void Subdivide(MeshData& meshData);
 private:
