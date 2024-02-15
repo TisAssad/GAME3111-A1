@@ -115,6 +115,7 @@ public:
 	MeshData CreatePyramid(float scale);
 	MeshData CreateDiamond(float scale);
 	MeshData CreateCone(float bottomRadius, float height, uint32 sliceCount, uint32 stackCount);
+	MeshData CreateRectangularPrism(float bottomRadius, float height, float topRadius, uint32 stackCount);
 
 	void Subdivide(MeshData& meshData);
 private:

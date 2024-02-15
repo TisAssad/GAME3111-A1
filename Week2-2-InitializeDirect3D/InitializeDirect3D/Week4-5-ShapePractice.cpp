@@ -551,6 +551,7 @@ void ShapesApp::BuildShapeGeometry()
 	GeometryGenerator::MeshData pyramid = geoGen.CreatePyramid(1);
 	GeometryGenerator::MeshData triangle3D = geoGen.CreateTriangularPrism(1);
 	GeometryGenerator::MeshData cone = geoGen.CreateCone(0.5, 1, 20, 5);
+	GeometryGenerator::MeshData rect3D = geoGen.CreateRectangularPrism(1, 1, 1, 2);
 
 	//
 	// We are concatenating all the geometry into one big vertex/index buffer.  So
@@ -569,6 +570,7 @@ void ShapesApp::BuildShapeGeometry()
 	UINT pyramidVertexOffset = diamondVertexOffset + (UINT)diamond.Vertices.size();
 	UINT triangle3DVertexOffset = pyramidVertexOffset + (UINT)pyramid.Vertices.size();
 	UINT coneVertexOffset = triangle3DVertexOffset + (UINT)triangle3D.Vertices.size();
+	UINT rect3DVertexOffset = coneVertexOffset + (UINT)cone.Vertices.size();
 
 	// Cache the starting index for each object in the concatenated index buffer.
 	UINT boxIndexOffset = 0;
@@ -582,6 +584,7 @@ void ShapesApp::BuildShapeGeometry()
 	UINT pyramidIndexOffset = diamondIndexOffset + (UINT)diamond.Indices32.size();
 	UINT triangle3DIndexOffset = pyramidIndexOffset + (UINT)pyramid.Indices32.size();
 	UINT coneIndexOffset = triangle3DIndexOffset + (UINT)triangle3D.Indices32.size();
+	UINT rect3DIndexOffset = coneIndexOffset + (UINT)cone.Indices32.size();
 
 	// Define the SubmeshGeometry that cover different 
 	// regions of the vertex/index buffers.
@@ -631,6 +634,12 @@ void ShapesApp::BuildShapeGeometry()
 	coneSubmesh.IndexCount = (UINT)cone.Indices32.size();
 	coneSubmesh.StartIndexLocation = coneIndexOffset;
 	coneSubmesh.BaseVertexLocation = coneVertexOffset;
+
+	SubmeshGeometry rect3DSubmesh;
+	rect3DSubmesh.IndexCount = (UINT)rect3D.Indices32.size();
+	rect3DSubmesh.StartIndexLocation = rect3DIndexOffset;
+	rect3DSubmesh.BaseVertexLocation = rect3DVertexOffset;
+
 	//
 	// Extract the vertex elements we are interested in and pack the
 	// vertices of all the meshes into one vertex buffer.
@@ -647,7 +656,8 @@ void ShapesApp::BuildShapeGeometry()
 		diamond.Vertices.size() +
 		pyramid.Vertices.size() +
 		triangle3D.Vertices.size() +
-		cone.Vertices.size();
+		cone.Vertices.size() +
+		rect3D.Vertices.size();
 
 	std::vector<Vertex> vertices(totalVertexCount);
 
@@ -707,6 +717,12 @@ void ShapesApp::BuildShapeGeometry()
 		vertices[k].Color = XMFLOAT4(DirectX::Colors::GreenYellow);
 	}
 
+	for (size_t i = 0; i < rect3D.Vertices.size(); ++i, ++k)
+	{
+		vertices[k].Pos = rect3D.Vertices[i].Position;
+		vertices[k].Color = XMFLOAT4(DirectX::Colors::DimGray);
+	}
+
 	std::vector<std::uint16_t> indices;
 	indices.insert(indices.end(), std::begin(box.GetIndices16()), std::end(box.GetIndices16()));
 	//step7
@@ -718,6 +734,7 @@ void ShapesApp::BuildShapeGeometry()
 	indices.insert(indices.end(), std::begin(pyramid.GetIndices16()), std::end(pyramid.GetIndices16()));
 	indices.insert(indices.end(), std::begin(triangle3D.GetIndices16()), std::end(triangle3D.GetIndices16()));
 	indices.insert(indices.end(), std::begin(cone.GetIndices16()), std::end(cone.GetIndices16()));
+	indices.insert(indices.end(), std::begin(rect3D.GetIndices16()), std::end(rect3D.GetIndices16()));
 
 	const UINT vbByteSize = (UINT)vertices.size() * sizeof(Vertex);
 	const UINT ibByteSize = (UINT)indices.size() * sizeof(std::uint16_t);
@@ -752,6 +769,7 @@ void ShapesApp::BuildShapeGeometry()
 	geo->DrawArgs["pyramid"] = pyramidSubmesh;
 	geo->DrawArgs["triangle3D"] = triangle3DSubmesh;
 	geo->DrawArgs["cone"] = coneSubmesh;
+	geo->DrawArgs["rect3D"] = rect3DSubmesh;
 
 	mGeometries[geo->Name] = std::move(geo);
 }
@@ -857,7 +875,14 @@ void ShapesApp::BuildRenderItems()
 	DrawObject(XMFLOAT3(0.0f, 6.5f, 0.0f), XMFLOAT3(13.0f, 0.75f, 18.0f), 0, index, "box");
 	DrawObject(XMFLOAT3(0.0f, 7.375f, 0.0f), XMFLOAT3(1.0f, 18.0f, 7.5f), 90, index, "wedge", 0, 90);
 	DrawObject(XMFLOAT3(0.0f, 7.75f, -9.0f), XMFLOAT3(1.0f, 0.8f, 1.0f), 0, index, "sphere");
-	for (int i = 0; i < 3; i++)
+	DrawObject(XMFLOAT3(3.5f, 7.77f, -9.0f), XMFLOAT3(0.3f, 7.5f, 0.3f), 0, index, "rect3D", 45, 77);
+	DrawObject(XMFLOAT3(3.5f, 7.77f, 9.0f), XMFLOAT3(0.3f, 7.5f, 0.3f), 0, index, "rect3D", 45, 77);
+	DrawObject(XMFLOAT3(-3.5f, 7.77f, -9.0f), XMFLOAT3(0.3f, 7.5f, 0.3f), 0, index, "rect3D", 45, -77);
+	DrawObject(XMFLOAT3(-3.5f, 7.77f, 9.0f), XMFLOAT3(0.3f, 7.5f, 0.3f), 0, index, "rect3D", 45, -77);
+	DrawObject(XMFLOAT3(0.0f, 8.7f, 0.0f), XMFLOAT3(0.4f, 19.0f, 0.4f), 90, index, "rect3D");
+	DrawObject(XMFLOAT3(6.7f, 7.0f, 0.0f), XMFLOAT3(0.4f, 19.0f, 0.4f), 90, index, "rect3D");
+	DrawObject(XMFLOAT3(-6.7f, 7.0f, 0.0f), XMFLOAT3(0.4f, 19.0f, 0.4f), 90, index, "rect3D");
+	for (int i = 0; i < 3; i++) // Decorations
 	{
 		DrawObject(XMFLOAT3(-5.0f + i * 5, 6.5f, -9.f), XMFLOAT3(1.0f, 1.0f, 1.0f), 0, index, "diamond");
 		DrawObject(XMFLOAT3(-5.0f + i * 5, 6.5f, 9.f), XMFLOAT3(1.0f, 1.0f, 1.0f), 0, index, "diamond");
