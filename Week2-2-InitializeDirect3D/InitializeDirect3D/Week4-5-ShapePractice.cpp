@@ -875,14 +875,17 @@ void ShapesApp::BuildRenderItems()
 	DrawObject(XMFLOAT3(0.0f, 6.5f, 0.0f), XMFLOAT3(13.0f, 0.75f, 18.0f), 0, index, "box");
 	DrawObject(XMFLOAT3(0.0f, 7.375f, 0.0f), XMFLOAT3(1.0f, 18.0f, 7.5f), 90, index, "wedge", 0, 90);
 	DrawObject(XMFLOAT3(0.0f, 7.75f, -9.0f), XMFLOAT3(1.0f, 0.8f, 1.0f), 0, index, "sphere");
+	DrawObject(XMFLOAT3(0.0f, 7.75f, 9.0f), XMFLOAT3(1.0f, 0.8f, 1.0f), 0, index, "sphere");
 	DrawObject(XMFLOAT3(3.5f, 7.77f, -9.0f), XMFLOAT3(0.3f, 7.5f, 0.3f), 0, index, "rect3D", 45, 77);
 	DrawObject(XMFLOAT3(3.5f, 7.77f, 9.0f), XMFLOAT3(0.3f, 7.5f, 0.3f), 0, index, "rect3D", 45, 77);
 	DrawObject(XMFLOAT3(-3.5f, 7.77f, -9.0f), XMFLOAT3(0.3f, 7.5f, 0.3f), 0, index, "rect3D", 45, -77);
 	DrawObject(XMFLOAT3(-3.5f, 7.77f, 9.0f), XMFLOAT3(0.3f, 7.5f, 0.3f), 0, index, "rect3D", 45, -77);
+	DrawObject(XMFLOAT3(0.0f, 7.20f, 9.0f), XMFLOAT3(0.2f, 13.5f, 0.2f), 0, index, "rect3D", 45, 90);
+	DrawObject(XMFLOAT3(0.0f, 7.20f, -9.0f), XMFLOAT3(0.2f, 13.5f, 0.2f), 0, index, "rect3D", 45, 90);
 	DrawObject(XMFLOAT3(0.0f, 8.7f, 0.0f), XMFLOAT3(0.4f, 19.0f, 0.4f), 90, index, "rect3D");
-	DrawObject(XMFLOAT3(6.7f, 7.0f, 0.0f), XMFLOAT3(0.4f, 19.0f, 0.4f), 90, index, "rect3D");
-	DrawObject(XMFLOAT3(-6.7f, 7.0f, 0.0f), XMFLOAT3(0.4f, 19.0f, 0.4f), 90, index, "rect3D");
-	for (int i = 0; i < 3; i++) // Decorations
+	DrawObject(XMFLOAT3(6.8f, 7.0f, 0.0f), XMFLOAT3(0.4f, 19.0f, 0.4f), 90, index, "rect3D", 0, -60);
+	DrawObject(XMFLOAT3(-6.8f, 7.0f, 0.0f), XMFLOAT3(0.4f, 19.0f, 0.4f), 90, index, "rect3D", 0,60);
+	for (int i = 0; i < 3; i++) // Decorations front and back
 	{
 		DrawObject(XMFLOAT3(-5.0f + i * 5, 6.5f, -9.f), XMFLOAT3(1.0f, 1.0f, 1.0f), 0, index, "diamond");
 		DrawObject(XMFLOAT3(-5.0f + i * 5, 6.5f, 9.f), XMFLOAT3(1.0f, 1.0f, 1.0f), 0, index, "diamond");
@@ -894,7 +897,6 @@ void ShapesApp::BuildRenderItems()
 		DrawObject(XMFLOAT3(-1.5f + i * 3.0, 6.5f, 9.5f), XMFLOAT3(1.0f, 1.0f, 1.0f), 90, index, "pyramid", 0, 90);
 		DrawObject(XMFLOAT3(-3.5f + i * 7, 6.5f, 9.0f), XMFLOAT3(1.0f, 0.5f, 1.0f), -90, index, "cone", 0, -90);
 	}
-
 	// Center
 	DrawObject(XMFLOAT3(3.0f, 3.5f, 1.0f), XMFLOAT3(0.5f, 5.0f, 8.0f), 0, index, "box");
 	DrawObject(XMFLOAT3(-3.0f, 3.5f, 1.0f), XMFLOAT3(0.5f, 5.0f, 8.0f), 0, index, "box");
