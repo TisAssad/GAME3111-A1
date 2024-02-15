@@ -111,9 +111,9 @@ public:
 
 	// Custom shapes
 	MeshData CreateWedge(float width, float height, float depth);
-	MeshData CreateTriangularPrism(float width, float height, float depth);
-	MeshData CreatePyramid(float bottomRadius, float topRadius, float height, uint32 sliceCount, uint32 stackCount);
-	MeshData CreateDiamond(float size);
+	MeshData CreateTriangularPrism(float scale);
+	MeshData CreatePyramid(float scale);
+	MeshData CreateDiamond(float scale);
 	MeshData CreateCone(float bottomRadius, float topRadius, float height, uint32 sliceCount, uint32 stackCount);
 
 	void Subdivide(MeshData& meshData);

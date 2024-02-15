@@ -107,12 +107,12 @@ GeometryGenerator::MeshData GeometryGenerator::CreateDiamond(float scale)
 	// Vertices
 	Vertex v[6];
 
-	v[0] = Vertex(0.0f, scale, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f);		// Top
-	v[1] = Vertex(-scale, 0.0f, -scale, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f);      // Bottom front-left
-	v[2] = Vertex(scale, 0.0f, -scale, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f);       // Bottom front-right
-	v[3] = Vertex(scale, 0.0f, scale, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f);        // Bottom back-right
-	v[4] = Vertex(-scale, 0.0f, scale, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f);       // Bottom back-left
-	v[5] = Vertex(0.0f, -scale, 0.0f, 0.0f, -1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f);		// Bottom
+	v[0] = Vertex(0.0f, scale, 0.0f,	0.0f, 1.0f, 0.0f,	1.0f, 0.0f, 0.0f, 0.0f, 1.0f);		// Top
+	v[1] = Vertex(-scale, 0.0f, -scale,	0.0f, 1.0f, 0.0f,	1.0f, 0.0f, 0.0f, 0.0f, 0.0f);      // Bottom front-left
+	v[2] = Vertex(scale, 0.0f, -scale,	0.0f, 1.0f, 0.0f,	1.0f, 0.0f, 0.0f, 1.0f, 0.0f);      // Bottom front-right
+	v[3] = Vertex(scale, 0.0f, scale,	0.0f, 1.0f, 0.0f,	1.0f, 0.0f, 0.0f, 1.0f, 1.0f);      // Bottom back-right
+	v[4] = Vertex(-scale, 0.0f, scale,	0.0f, 1.0f, 0.0f,	1.0f, 0.0f, 0.0f, 0.0f, 1.0f);      // Bottom back-left
+	v[5] = Vertex(0.0f, -scale, 0.0f,	0.0f, 1.0f, 0.0f,	1.0f, 0.0f, 0.0f, 1.0f, 0.0f);		// Bottom
 
 	meshData.Vertices.assign(&v[0], &v[6]);
 
@@ -132,6 +132,69 @@ GeometryGenerator::MeshData GeometryGenerator::CreateDiamond(float scale)
 	i[21] = 4; i[22] = 1; i[23] = 5;
 
 	meshData.Indices32.assign(&i[0], &i[24]);
+
+	return meshData;
+}
+
+GeometryGenerator::MeshData GeometryGenerator::CreatePyramid(float scale)
+{
+	MeshData meshData;
+
+	scale /= 2;
+	// Vertices
+	Vertex v[5];
+
+	v[0] = Vertex(0.0f, scale, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f);		// Top
+	v[1] = Vertex(-scale, -scale, -scale, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f);    // Bottom front-left
+	v[2] = Vertex(scale, -scale, -scale, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f);     // Bottom front-right
+	v[3] = Vertex(scale, -scale, scale, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f);      // Bottom back-right
+	v[4] = Vertex(-scale, -scale, scale, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f);     // Bottom back-left
+
+	meshData.Vertices.assign(&v[0], &v[5]);
+
+	// Indices
+	uint32 i[18];
+
+	// Top pyramid
+	i[0] = 0; i[1] = 1; i[2] = 2;
+	i[3] = 0; i[4] = 2; i[5] = 3;
+	i[6] = 0; i[7] = 3; i[8] = 4;
+	i[9] = 0; i[10] = 4; i[11] = 1;
+
+	// Bottom square
+	i[12] = 1; i[13] = 2; i[14] = 4;
+	i[15] = 2; i[16] = 3; i[17] = 4;
+
+	meshData.Indices32.assign(&i[0], &i[18]);
+
+	return meshData;
+}
+
+GeometryGenerator::MeshData GeometryGenerator::CreateTriangularPrism(float scale)
+{
+	MeshData meshData;
+
+	scale /= 2;
+	// Vertices
+	Vertex v[4];
+
+	v[0] = Vertex(0.0f, scale, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f);			// Top
+	v[1] = Vertex(-scale, -scale, -scale, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f);		// Bottom front-left
+	v[2] = Vertex(0, 0.0f, -scale, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f);				// back
+	v[3] = Vertex(scale, -scale, -scale, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f);		// Bottom front-right
+
+	meshData.Vertices.assign(&v[0], &v[4]);
+
+	// Indices
+	uint32 i[12];
+
+	// 4 triangles
+	i[0] = 0; i[1] = 1; i[2] = 2;
+	i[3] = 0; i[4] = 2; i[5] = 3;
+	i[6] = 0; i[7] = 3; i[8] = 1;
+	i[9] = 1; i[10] = 2; i[11] = 3;
+
+	meshData.Indices32.assign(&i[0], &i[12]);
 
 	return meshData;
 }
