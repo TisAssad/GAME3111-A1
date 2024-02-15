@@ -550,7 +550,7 @@ void ShapesApp::BuildShapeGeometry()
 	GeometryGenerator::MeshData diamond = geoGen.CreateDiamond(1);
 	GeometryGenerator::MeshData pyramid = geoGen.CreatePyramid(1);
 	GeometryGenerator::MeshData triangle3D = geoGen.CreateTriangularPrism(1);
-	GeometryGenerator::MeshData cone = geoGen.CreateCone(0.5, 0.5, 20, 5);
+	GeometryGenerator::MeshData cone = geoGen.CreateCone(0.5, 1, 20, 5);
 
 	//
 	// We are concatenating all the geometry into one big vertex/index buffer.  So
@@ -831,7 +831,7 @@ void ShapesApp::BuildRenderItems()
 	DrawObject(XMFLOAT3(0.0f, 0.0f, 0.0f), XMFLOAT3(15.0f, 0.5f, 20.0f), 0, index, "box");
 	DrawObject(XMFLOAT3(0.0f, 0.5f, 0.0f), XMFLOAT3(14.0f, 0.5f, 19.0f), 0, index, "box");
 	DrawObject(XMFLOAT3(0.0f, 1.0f, 0.0f), XMFLOAT3(13.0f, 0.5f, 18.0f), 0, index, "box");
-	DrawObject(XMFLOAT3(0.0f, -0.25f, 0.0f), XMFLOAT3(30.0f, 1.0f, 30.0f), 0, index, "grid");
+	DrawObject(XMFLOAT3(0.0f, -0.26f, 0.0f), XMFLOAT3(30.0f, 1.0f, 30.0f), 0, index, "grid");
 	// Pillars
 	for (int i = 0; i < 8; i++) 
 	{
@@ -856,10 +856,19 @@ void ShapesApp::BuildRenderItems()
 	// Roof
 	DrawObject(XMFLOAT3(0.0f, 6.5f, 0.0f), XMFLOAT3(13.0f, 0.75f, 18.0f), 0, index, "box");
 	DrawObject(XMFLOAT3(0.0f, 7.375f, 0.0f), XMFLOAT3(1.0f, 18.0f, 7.5f), 90, index, "wedge", 0, 90);
-	//DrawObject(XMFLOAT3(0.0f, 10.0f, 0.0f), XMFLOAT3(3.0f, 3.0f, 3.0f), 0, index, "diamond");
-	DrawObject(XMFLOAT3(-4.0f, 10.0f, 0.0f), XMFLOAT3(3.0f, 3.0f, 3.0f), 0, index, "pyramid");
-	DrawObject(XMFLOAT3(4.0f, 10.0f, 0.0f), XMFLOAT3(3.0f, 3.0f, 3.0f), 0, index, "triangle3D");
-	DrawObject(XMFLOAT3(0.0f, 10.0f, 0.0f), XMFLOAT3(3.0f, 3.0f, 3.0f), 0, index, "cone");
+	DrawObject(XMFLOAT3(0.0f, 7.75f, -9.0f), XMFLOAT3(1.0f, 0.8f, 1.0f), 0, index, "sphere");
+	for (int i = 0; i < 3; i++)
+	{
+		DrawObject(XMFLOAT3(-5.0f + i * 5, 6.5f, -9.f), XMFLOAT3(1.0f, 1.0f, 1.0f), 0, index, "diamond");
+		DrawObject(XMFLOAT3(-5.0f + i * 5, 6.5f, 9.f), XMFLOAT3(1.0f, 1.0f, 1.0f), 0, index, "diamond");
+	}
+	for (int i = 0; i < 2; i++)
+	{
+		DrawObject(XMFLOAT3(-1.5f + i * 3.0, 6.5f, -9.f), XMFLOAT3(1.0f, 1.0f, 1.0f), 90, index, "pyramid", 0, 90);
+		DrawObject(XMFLOAT3(-3.5f + i * 7, 6.5f, -9.3f), XMFLOAT3(1.0f, 0.5f, 1.0f), -90, index, "cone", 0, -90);	
+		DrawObject(XMFLOAT3(-1.5f + i * 3.0, 6.5f, 9.5f), XMFLOAT3(1.0f, 1.0f, 1.0f), 90, index, "pyramid", 0, 90);
+		DrawObject(XMFLOAT3(-3.5f + i * 7, 6.5f, 9.0f), XMFLOAT3(1.0f, 0.5f, 1.0f), -90, index, "cone", 0, -90);
+	}
 
 	// Center
 	DrawObject(XMFLOAT3(3.0f, 3.5f, 1.0f), XMFLOAT3(0.5f, 5.0f, 8.0f), 0, index, "box");
